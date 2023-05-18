@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import colorData from "./color-data.json";
 import ColorList from "./components/ColorList";
 import AddColorForm from "./components/AddColorForm";
+import { v4 } from 'uuid';
+
 
 
 function App() {
@@ -27,12 +29,23 @@ function App() {
 
   return (
     <>
-      <AddColorForm onNewColor={(title, color) => alert(`TODO: Create ${title} - ${color}`)} />
+      <AddColorForm onNewColor={(title, color) => {
+        const newColors = [...colors, {
+          id: v4(),
+          title,
+          color,
+          rating: 0
+        }];
+        setColors(newColors);
+      }}
+      />
+
       <ColorList
         colors={colors}
         onRemoveColor={removeColor}
         onRateColor={rateColor}
       />;
+
     </>
   )
 
