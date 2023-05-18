@@ -1,4 +1,7 @@
 import React, { useState, useRef } from "react";
+import { useInput } from "../hooks/useInput";
+
+
 
 // export default function AddColorForm({ onNewColor = f => f }) {
 //     const txtTitle = useRef();
@@ -22,14 +25,14 @@ import React, { useState, useRef } from "react";
 // }
 
 export default function AddColorForm({ onNewColor = f => f }) {
-    const [title, setTitle] = useState("");
-    const [color, setColor] = useState("");
+    const [titleProps, resetTitle] = useInput("");
+    const [colorProps, resetColor] = useInput("#000000");
 
     const submit = e => {
         e.preventDefault();
-        onNewColor(title, color);
-        setTitle("");
-        setColor("");
+        onNewColor(titleProps.value, colorProps.value);
+        resetTitle();
+        resetColor();
     }
 
     return (
@@ -37,15 +40,13 @@ export default function AddColorForm({ onNewColor = f => f }) {
             <input
                 type="text"
                 placeholder="color title..."
-                value={title}
-                onChange={e => setTitle(e.target.value)}
                 required
+                {...titleProps}
             />
             <input
                 type="color"
-                value={color}
-                onChange={e => setColor(e.target.value)}
                 required
+                {...colorProps}
             />
             <button>ADD</button>
         </form>
